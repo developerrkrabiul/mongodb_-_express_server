@@ -1,13 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const Developer = require('../models/developerModel');
 
 // All Deves data models
 const deves = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/deves.json')).toString());
 
-// Get all Deves
-const getAllDeves = (req, res) =>{
-    res.status(200).json(deves);
-};
 
 // get latest id
 const getid = () =>{
@@ -17,6 +14,18 @@ const getid = () =>{
         return 1;
     }
 }
+
+
+
+// Get all Deves
+const getAllDeves = async (req, res) =>{
+
+    let data = await Developer.find();
+    res.status(200).json(data);
+
+
+};
+
 
 
 
@@ -36,21 +45,18 @@ const getSingleDeve = (req, res) =>{
 };
 
 // Get Create Deves
-const CreateDeve = (req, res) =>{
+const CreateDeve = async (req, res) =>{
 
-    let {name, age, skill} = req.body;
+        let {name, age, skill} = req.body;
 
-    deves.push({
-        id      : getid(),
+    let data = await Developer.create({
         name    : name,
         skill   : skill,
         age     : age
-    });
-
-    fs.writeFileSync(path.join(__dirname, '../data/deves.json'), JSON.stringify(deves));
+    })
 
     res.status(202).json({
-        message : 'New deve Created'
+        message : 'New Developer Data Created'
     })
 };
 

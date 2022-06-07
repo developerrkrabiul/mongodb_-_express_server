@@ -1,6 +1,11 @@
 const dotenv = require('dotenv').config();
 const express = require("express");
 const app = express();
+const connetMongoDB = require('./config/db');
+const colors = require('colors');
+
+// mongoDB connection init
+connetMongoDB();
 
 // environment variables init
 const PORT = process.env.SERVER_PORT;
